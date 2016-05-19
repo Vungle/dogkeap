@@ -48,4 +48,10 @@ spec:
               key: dogkeap
           - name: KAFKA_TOPIC
             value: inf-heapster-metrics
+          - name: ZK_HOST
+            value: zookeeper.prod.svc.cluster.local:2181
+          - name: CONSUMER_GROUP
+            value: dogkeap
+          - name: CONSUMER_OFFSET
+            value: newest
       restartPolicy: Always
