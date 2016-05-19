@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    k8s-app: keapster
+    name: heapster
+    version: v6
+  name: heapster
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    k8s-app: keapster
+    version: v6
+  template:
+    metadata:
+      labels:
+        k8s-app: keapster
+        version: v6
+    spec:
+      imagePullSecrets:
+        - name: vungleregistrykey
+      containers:
+      ###############################
+      # HEAPSTER
+      # #############################
+      - name: heapster
+        command:
+        - /heapster
+        - --source=kubernetes:https://kubernetes.default.svc
+        #- --sink=influxdb:http://influx-udp.default.svc.cluster.local:8086
+        - --sink=kafka:?brokers=kafka.prod.svc.cluster.local:9092&timeseriestopic=inf-heapster-metrics&eventstopic=inf-heapster-events
+        #- --sink=log
+        image: kubernetes/heapster:canary
+        imagePullPolicy: Always
+      ###############################
+      # TELEGRAF
+      # #############################
+      - name: telegraf
+        image: vungle/dogkeap
+        imagePullPolicy: Always
+        name: heapster
+        env:
+          - name: DD_API_KEY
+            valueFrom:
+            secretKeyRef:
+              name: datadog_api_keys
+              key: dogkeap
+          - name: KAFKA_TOPIC
+            value: inf-heapster-metrics
+      restartPolicy: Always
