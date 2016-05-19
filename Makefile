@@ -1,5 +1,5 @@
 account = vungle
-project = ""
+project = dogkeap 
 
 all: build test push deploy
 
