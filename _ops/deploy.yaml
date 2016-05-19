@@ -43,9 +43,9 @@ spec:
         env:
           - name: DD_API_KEY
             valueFrom:
-            secretKeyRef:
-              name: datadog_api_keys
-              key: dogkeap
+              secretKeyRef:
+                name: datadog_api_keys
+                key: dogkeap
           - name: KAFKA_TOPIC
             value: inf-heapster-metrics
           - name: ZK_HOST
