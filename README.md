@@ -47,6 +47,9 @@ DD_API_KEY
 ZK_HOST
 CONSUMER_GROUP
 CONSUMER_OFFSET
+DATA_FORMAT
 ```
+
+data format info: https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
 
 The env variables get added to the telegraf.toml on run by executing the run.sh script.
